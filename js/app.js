@@ -1,0 +1,51 @@
+angular.module("ljaWebPlatform",[
+	"ui.router",
+	"angularFileUpload",
+	"angular-md5",
+	"controllers.main",
+	"controllers.template",
+	"controllers.appCtrl",
+	"services.ljaTestService",
+	"directives.main"
+])
+.config(function(
+	$stateProvider,
+	$locationProvider,
+	$urlRouterProvider
+){
+	$stateProvider
+		.state('testApp',{
+			url:"/testApp/:v",
+			templateUrl:"template/menu.html",
+			controller:"AppCtrl"
+		})
+		.state('testApp.template',{
+			url:"/template/:type",
+			views:{
+				'menuContent':{
+					templateUrl:"template/template.html",
+					controller:"Template"
+				}
+			}
+		})
+		.state('testApp.main',{
+			url:"/:type",
+			views:{
+				'menuContent':{
+					templateUrl:"template/main.html",
+					controller:"Main"
+				}
+			}
+		})
+		.state('testApp.api',{
+			url:"/:type/{path:.*}",
+			views:{
+				'menuContent':{
+					templateUrl:"template/main.html",
+					controller:"Main"
+				}
+			}
+		})
+	$urlRouterProvider.otherwise("/testApp/1.0");
+	$locationProvider.html5Mode(true);
+})

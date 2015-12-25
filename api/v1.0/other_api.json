@@ -1,0 +1,72 @@
+[
+{
+	"title":"短信验证",
+	"apis":[
+	{
+		"title":"用户登录",
+        "method":"POST",
+        "uri":"/push/sms/verify",
+        "params":[
+        	"appKey | string | 应用appkey",
+        	"appSecret | string | 应用密码",
+        	"phone | string | 目标手机号"
+        ],
+        "testParams":{
+            "appKey":"lja",
+			"appSecret":"lja123456",
+			"phone":"15928682314"
+        },
+        "desc":"登录学员账号，基于学员的接口都必须先点击测试该接口，才能继续操作"
+	}
+	]
+},{
+    "title":"推送测试",
+    "uri":"/push",
+    "apis":[
+        {
+            "title":"应用内消息推送",
+            "uri":"/send/app",
+            "method":"POST",
+            "params":[
+                "appKey | string | 推送服务器分配的appKey",
+                "appSecret | string | 推送服务器分配的appSecret",
+                "alert | string | 推送标题",
+                "pushBody | object | 消息实体。必须包含weixinPush,jPush其中一个",
+                "client | string | 客户端。是推到学员端（student），还是教练端（coach）",
+                "pushDate | string | 推送日期。定时消息才需要。格式为2015-10-10 12:00:00"
+            ],
+            "testParams":{
+                "appKey":"lja",
+                "appSecret":"lja123456",
+                "alert":"成功绑定教练",
+                "pushBody":{
+                    "weixinPush":{
+                        "openId":"oFo60wMVeC2YIb0e2C99l3xcgVRQ",
+                        "messageType":"4",
+                        "first":"抱歉！秦阳 拒绝了你的学员申请",
+                        "keyword1":"15928682314",
+                        "keyword2":"绑定教练失败，请联系教练15928682314",
+                        "remark":"感谢你使用助驾帮"
+                    }
+                },
+                "client":"student"
+            }
+        },{
+            "title":"删除定时推送消息",
+            "uri":"/",
+            "method":"DELETE"
+        }
+    ]
+},{
+    "title":"ivr测试",
+    "uri":"/push/ivr",
+    "apis":[
+        {
+            "title":"接通，并播放语音",
+            "uri":"/startservice",
+            "method":"POST",
+            "testParams":{}
+        }
+    ]
+}
+]

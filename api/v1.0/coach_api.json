@@ -1,0 +1,121 @@
+[
+{
+	"title":"学员",
+	"uri":"/student",
+	"apis":[
+		{
+			"title":"获取未毕业学员列表",
+			"method":"GET",
+			"uri":"/info/list",
+			"testParams":{},
+			"desc":"目前只返回每个学员的id,name,phone，如需要其他字段，后期再加"
+		},{
+			"title":"通过id列表来获取学员的简要信息",
+			"method":"GET",
+			"uri":"/info/proList",
+			"params":[
+				"ids | string | 用逗号隔开的学员id列表"
+			],
+			"testParams":{
+				"ids":"455,1059"
+			},
+			"desc":"目前返回学员的名字和手机号"
+		},{
+			"title":"同意绑定学员",
+			"method":"POST",
+			"uri":"/bind/agree",
+			"params":[
+				"userId | int | 学员ID"
+			],
+			"testParams":{
+				"userId":4
+			}
+		},{
+			"title":"拒绝绑定学员",
+			"method":"POST",
+			"uri":"/bind/refuse",
+			"params":[
+				"userId | int | 学员ID"
+			],
+			"testParams":{
+				"userId":14
+			}
+		},{
+			"title":"添加排程安排",
+			"method":"POST",
+			"uri":"/order",
+			"params":[
+				"date | int | 相对于当天的天数(0表示今天，1表示明天)",
+				"time | int | 小时时间点(8-12,13-18,19-20)",
+				"mold | string | 排程类型(subject3:科目三，rest:休息，sendExam:送考)"
+			],
+			"testParams":{
+				"date":6,
+				"time":14,
+				"mold":"subject3"
+			}
+		},{
+			"title":"按周获取排程信息",
+			"method":"GET",
+			"uri":"/order/byWeek",
+			"params":[
+				"week | int | 相对周数,0表示当前周，-1表示上一周"
+			],
+			"testParams":{
+				"week":0
+			}
+		},{
+			"title":"按天获取排程信息",
+			"method":"GET",
+			"uri":"/order/byDay",
+			"params":[
+				"date | int | 相对天数,0表示今天,1表示明天"
+			],
+			"testParams":{
+				"date":3
+			}
+		},{
+			"title":"取消排程安排",
+			"method":"DELETE",
+			"uri":"/order/:id",
+			"params":[
+				"id | int | 排程的ID"
+			],
+			"testParams":{
+				"id":36
+			}
+		},{
+			"title":"取消学员的预约",
+			"method":"DELETE",
+			"uri":"/order/other/:id",
+			"params":[
+				"id | int | 学员预约的ID"
+			],
+			"testParams":{
+				"id":44
+			}
+		}
+	]
+},{
+	"title":"消息中心",
+	"uri":"/message",
+	"apis":[
+		{
+			"title":"获取未处理消息",
+			"uri":"/info/list",
+			"method":"GET",
+			"testParams":{}
+		},{
+			"title":"把消息置为已读",
+			"uri":"/info/read",
+			"method":"POST",
+			"params":[
+				"messageId | int | 消息ID"
+			],
+			"testParams":{
+				"messageId":70
+			}
+		}
+	]
+}
+]

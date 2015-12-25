@@ -1,0 +1,297 @@
+[
+
+	
+	{
+		"title":"教练注册、登录",
+		"uri":"/coach/register",
+		"apis":[
+
+		{
+                "title":"获取验证码",
+                "uri":"/code",
+                "method":"POST",
+                "params":[
+                    "phone | string | 手机号"
+                ],
+                "testParams":{
+                    "phone":"15108357122"
+                },
+                "desc":"已调试完"
+        },
+
+		{
+			"title":"注册用户",
+			"uri":"/register",
+			"method":"POST",
+			"params":[
+				"phone | string | 用户电话号码",
+				"password | string | 密码",
+				"code | string | 验证码"
+			],
+			"testParams":{
+				"phone":"15108357122",
+				"password":"11223344",
+				"code":"4561"
+			},
+			"desc":"已调试完"
+		},
+		{
+			"title":"用户登录",
+			"uri":"/login",
+			"method":"POST",
+			"params":[
+				"phone | string | 用户电话号码",
+				"password | string | 密码"
+			],
+			"testParams":{
+				"phone":"15828433284",
+				"password":"qqqqqq"
+			},
+			"desc":"已调试完"
+		},{
+			"title":"重置密码",
+			"uri":"/resetPassword",
+			"method":"POST",
+			"params":[
+				"phone | string | 用户电话号码",
+				"password | string | 密码",
+				"code | string | 验证码"
+			],
+			"testParams":{
+				"phone":"15828433284",
+				"password":"111122",
+				"code":"4434"
+			},
+			"desc":"已调试完"
+		}
+	]
+},{
+	"title":"修改教练信息",
+	"uri":"/coach/operation",
+	"apis":[
+		{
+			"title":"获取教练信息",
+			"uri":"/reload",
+			"method":"GET",
+			"params":[
+				
+			],
+			"testParams":{
+				
+			},
+			"desc":"未调试"
+		},{
+			"title":"修改教练信息",
+			"method":"PUT",
+			"uri":"/modifyInfo",
+			"params":[
+				"name | string | 教练名字",
+				"birthday | string | 格式'2006-01-02'",
+				"sex | string | 1－男 2-女",
+				"introduction | string | 简介",
+				"teachSite | string | 练车场地",
+				"teachType | string | 教学类型",
+				"drivingSchool | string | 驾校",
+				"teachCharacteristics | string | 教学特点，格式:'吊炸天-好到爆－爽得很'"
+
+			],
+			"testParams":{
+				"name":"古德波俄",
+				"sex":2,
+				"teachCharacteristics":"吊炸天-好到爆－爽得很"
+
+			},
+			"desc":"已调试完"
+		},{
+			"title":"搜索驾校",
+			"method":"GET",
+			"uri":"/searchDriveSchool",
+			"params":[
+				"name | string | 驾校名称"
+			],
+			"testParams":{
+			"name":"驾校"
+			}
+		},{
+			"title":"获取图片上传凭证",
+			"method":"GET",
+			"uri":"/getToken",
+			"params":[
+				"imageType | int | 图片类型 1-头像，2-身份证，3-教练证，4-驾驶证，5-场地图片，6-车辆照片"
+			],
+			"testParams":{
+				"imageType":3
+			}
+		},{
+			"title":"图片上传回调",
+			"method":"POST",
+			"uri":"/pictureCallback",
+			"params":[
+				"imageType | int | 图片类型 1-头像 ，2-身份证，3-教练证，4-驾驶证，5-场地图片，6-车辆照片,99-图片上传失败"
+			],
+			"testParams":{
+				"imageType":3
+			}
+		},{
+			"title":"获取图片",
+			"method":"GET",
+			"uri":"/getPictures",
+			"params":[
+				"imageType | int | 5-场地图片，6-车辆照片"
+			],
+			"testParams":{
+				"imageType":5
+			},
+			"desc":"未调试完"
+		},{
+			"title":"删除图片",
+			"method":"DELETE",
+			"uri":"/deletePicture/50",
+			"params":[
+				"id  | int | 将图片ID拼接到路径后面,例如：deletePicture/id"
+			],
+			"testParams":{
+				"id":50
+			},
+			"desc":"未调试完"
+		}
+	]
+},{
+	"title":"学员管理",
+	"uri":"/coach/operation",
+	"apis":[
+		{ 
+			"title":"创建班型",
+			"method":"POST",
+			"uri":"/newClass",
+			"params":[
+				"driveSchoolId | int | 驾校Id",
+				"shoolName | string | 所属驾校",
+				"name | string | 班级名称",
+				"type | int | 车型：1－c1,2-c2",
+				"price | int | 价格"
+
+			],
+			"testParams":{
+				"driveSchoolId":1,
+				"shoolName":"ACE",
+				"name":"BTVIP",
+				"type":1,
+				"price":4399
+			},
+			"desc":"已调试完"
+		},{ 
+			"title":"修改班型",
+			"method":"PUT",
+			"uri":"/modifyClass",
+			"params":[
+				"shoolName | string | 所属驾校",
+				"name | string | 班级名称",
+				"type | int | 车型：1－c1,2-c2",
+				"price | int | 价格"
+
+			],
+			"testParams":{
+				"shoolName":"MVP",
+				"name":"BTVIP",
+				"type":1,
+				"price":49
+			},
+			"desc":"未试完"
+		},{
+			"title":"添加学员",
+			"method":"POST",
+			"uri":"/addStudents",
+			"params":[
+				"studnets | string | json数组"
+			],
+			"testParams":{
+				"students":"{\"students\":[{\"name\":\"LII\",\"phone\":\"12345678939\",\"status\":1,\"remark\":\"SB\"},{\"name\":\"MII\",\"phone\":\"12345678938\",\"status\":1}]}"
+			},
+			"desc":"已调试完"
+		},{
+			"title":"获取不同状态学员列表",
+			"method":"GET",
+			"uri":"/getStudents",
+			"params":[
+				"status | int | 学员状态：1-在学，2-已毕业"
+			],
+			"testParams":{
+				"status":1
+			},
+			"desc":"已调试完"
+		},{
+			"title":"获取所有学员列表",
+			"method":"GET",
+			"uri":"/getAllStudents",
+			"params":[
+				
+			],
+			"testParams":{
+				
+			},
+			"desc":"未调试"
+		},{
+			"title":"按条件搜索学员",
+			"method":"GET",
+			"uri":"/searchStudent",
+			"params":[
+				"phone | string | 学员电话",
+				"name | string | 学员名字  每次只能有一个搜索条件"
+			],
+			"testParams":{
+				"name": "LII"
+			},
+			"desc":"已调试完"
+		},{
+			"title":"获取学员信息",
+			"method":"GET",
+			"uri":"/getStudentInfo",
+			"params":[
+				"id | int | 学员id"
+			],
+			"testParams":{
+				"id":33
+			},
+			"desc":"已调试完"
+		},{
+			"title":"修改学员备注",
+			"method":"PUT",
+			"uri":"/modifyRemrak",
+			"params":[
+				"id | int | 学员id",
+				"remark | int | 备注信息"
+			],
+			"testParams":{
+				"id":33,
+				"remark":"烟飘云端"
+			},
+			"desc":"已调试完"
+		},{
+			"title":"修改学员状态",
+			"method":"PUT",
+			"uri":"/modifyStudentStatus",
+			"params":[
+				"id | int | 学员id",
+				"Status | int | 学员状态"
+			],
+			"testParams":{
+				"id":33,
+				"Status":2
+			},
+			"desc":"已调试完"
+		},{
+			"title":"其它",
+			"uri":"/read",
+			"method":"POST",
+			"params":[
+				"messageId | int | 消息ID"
+			],
+			"testParams":{
+				"messageId":72
+			}
+		}
+	]
+}
+
+]

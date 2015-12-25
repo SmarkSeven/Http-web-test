@@ -1,0 +1,631 @@
+[
+{
+    "title":"基础接口",
+    "apis":[
+    {
+        "title":"用户登录",
+        "method":"POST",
+        "uri":"/login",
+        "params":[
+            "password | string | 登录密码",
+            "phone | string | 登录手机"
+        ],
+        "testParams":{
+            "password":"qqqqqq",
+            "phone":"13888880777"
+        },
+        "desc":"登录学员账号，基于学员的接口都必须先点击测试该接口，才能继续操作"
+    },{
+        "title":"教练登录",
+        "method":"POST",
+        "uri":"/login",
+        "params":[
+            "password | string | 登录密码",
+            "phone | string | 登录手机"
+        ],
+        "testParams":{
+            "password":"qqqqqq",
+            "phone":"13888880002"
+        },
+        "desc":"登录教练账号，基于教练的接口都必须先点击测试该接口，才能继续操作"
+    }
+    ],
+    "sub":[
+        {
+            "title":"注册(无需登录即可调用)",
+            "uri":"/register",
+            "apis":[
+            {
+                "title":"获取验证码",
+                "uri":"/code",
+                "method":"GET",
+                "params":[
+                    "phone | string | 手机号"
+                ],
+                "testParams":{
+                    "phone":"15928682314"
+                }
+            },{
+                "title":"添加用户(即添加密码)",
+                "uri":"/addUser",
+                "method":"POST",
+                "params":[
+                    "pwd | string | 密码",
+                    "code | string | 验证码",
+                    "extra | object | 额外附加的字段。目前允许注册的时候，把名字填了."
+                ],
+                "testParams":{
+                    "pwd":"qqqqqq",
+                    "code":"9594",
+                    "extra":{
+                        "name":"秦阳"
+                    }
+                },
+                "desc":"密码必须由字母和数字组成，长度在6-15"
+            },{
+                "title":"检查手机号是否注册",
+                "uri":"/checkPhone",
+                "method":"GET",
+                "params":[
+                    "phone | string | 待检查的手机号"
+                ],
+                "testParams":{
+                    "phone":"15928682314"
+                }
+            },{
+                "title":"重置密码",
+                "uri":"/resetPwd",
+                "method":"POST",
+                "params":[
+                    "pwd | string | 新密码",
+                    "code | string | 验证码"
+                ],
+                "testParams":{
+                    "pwd":"qqqqqq",
+                    "code":"1234"
+                },
+                "desc":"与用户管理里的修改密码不同的是，这个接口需要先验证手机号，通过验证手机号来确认用户的身份"
+            },{
+                "title":"验证用户",
+                "uri":"/verifyUser",
+                "method":"POST",
+                "params":[
+                    "code | string | 验证码"
+                ],
+                "testParams":{
+                    "code":"5150"
+                },
+                "desc":"该接口是做活动的时候新加的接口，app里用不到"
+            },{
+                "title":"通过邀请码获取学车优惠劵,并自动注册成新用户",
+                "uri":"/invitePrivilege",
+                "method":"GET",
+                "params":[
+                    "inviteCode | string | 邀请码",
+                    "code | string | 验证码"
+                ],
+                "testParams":{
+                    "inviteCode":"HNDm",
+                    "code":"1234"
+                }
+            },{
+                "title":"通过验证验证码，来初始化用户",
+                "uri":"/initUser",
+                "method":"POST",
+                "params":[
+                    "code | int | 验证码",
+                    "type | string | 入口类型。试驾类型是 tryDrive; 通过微信公众号的类型是 weixin;",
+                    "extra | object | 额外附加的字段。目前允许注册的时候，把名字填了."
+                ],
+                "testParams":{
+                    "type":"weixin",
+                    "code":"1023",
+                    "extra":{
+                        "name":"秦阳"
+                    }
+                },
+                "desc":"该接口是为了统一以后通过验证码来登录或者加入的用户，type是入口的类型"
+            },{
+                "title":"通过微信端获取的code直接登录",
+                "uri":"/wxLogin",
+                "method":"POST",
+                "params":[
+                    "code | string | scope=snsapi_base获取到的code"
+                ],
+                "testParams":{
+                    "code":"04157ca3a1fbb66f594f130605f77a62"
+                }
+            }
+            ]
+        }
+    ]
+},{
+    "title":"公共接口，无需登录",
+    "uri":"/common",
+    "apis":[
+        {
+            "title":"通过邀请码获取用户的名字",
+            "method":"GET",
+            "uri":"/getUserNameByInviteCode",
+            "params":[
+                "inviteCode | string | 邀请码"
+            ],
+            "testParams":{
+                "inviteCode":"HNDm"
+            },
+            "desc":"如果用户没有设置名字，则返回用户的手机号来代替名字"
+        }
+    ]
+},{
+    "title":"系统",
+    "uri":"/system",
+    "apis":[
+    {
+        "title":"获取服务器时间",
+        "uri":"/time",
+        "method":"GET",
+        "testParams":{}
+    }
+    ]
+},{
+    "title":"教练",
+    "uri": "/coach",
+    "apis":[
+        {
+            "title":"绑定教练",
+            "method":"POST",
+            "uri":"/bind",
+            "params":[
+                "coachId | string | 教练ID"
+            ],
+            "testParams":{
+                "coachId":"12"
+            }
+        }
+    ]
+},{
+    "title":"用户管理",
+    "uri":"/user",
+    "apis":[
+        {
+            "title":"获取证件上传凭证",
+            "uri":"/lisenceUpToken",
+            "method":"GET",
+            "params":[
+                "lisenceType | string | 证件类型(identity ,drive ,coach ,driving)"
+            ],
+            "testParams":{
+                "lisenceType":"identity"
+            }
+        },{
+            "title":"证件照上传(七牛接口)",
+            "uri":"http://upload.qiniu.com/",
+            "method":"FILE-UPLOAD",
+            "absolute":true,
+            "testParams":{
+                "token":"x2KJmdepFhAJpgGOVMipefEH6n2dOz_akFo4wQ9N:OswLarjFwmqyUDfqkMm0xcinQ8E=:eyJzY29wZSI6ImlkZW50aXR5OmxvY2FsLzMxIiwiZGVhZGxpbmUiOjE0NDE2MTQ3MDd9",
+                "key":"local/31"
+            }
+        },{
+            "title":"把证件照图片链接回传给服务器",
+            "method":"POST",
+            "uri":"/lisence",
+            "params":[
+                "lisenceType | string | 证件类型(identity ,drive ,coach ,driving)"
+            ],
+            "testParams":{
+                "lisenceType":"identity"
+            }
+        },{
+            "title":"获取证件照的下载链接",
+            "method":"GET",
+            "uri":"/lisenceGettoken",
+            "params":[
+                "lisenceType | string | 证件类型(identity ,drive ,coach ,driving)"
+            ],
+            "testParams":{
+                "lisenceType":"driving"
+            }
+        },{
+            "title":"获取头像上传凭证",
+            "method":"GET",
+            "uri":"/avatorUpToken",
+            "testParams":{}
+        },{
+            "title":"头像上传(七牛接口)",
+            "method":"FILE-UPLOAD",
+            "absolute":true,
+            "uri":"http://upload.qiniu.com/",
+            "testParams":{
+                "token":"x2KJmdepFhAJpgGOVMipefEH6n2dOz_akFo4wQ9N:b76ZPt7R8KDCw7t62T0-69UxJFU=:eyJzY29wZSI6ImF2YXRvcjpkZXZlbG9wbWVudC8yMCIsImRlYWRsaW5lIjoxNDQyMjI4NjgyfQ==",
+                "key":"development/20"
+            }
+        },{
+            "title":"把头像链接回传给服务器",
+            "uri":"/avator",
+            "method":"POST",
+            "testParams":{
+
+            }
+        },{
+            "title":"用户提交成为教练的申请",
+            "method":"POST",
+            "uri":"/apply",
+            "testParams":{
+                
+            }
+        },{
+            "title":"上传和修改用户的个人信息",
+            "method":"POST",
+            "uri":"/profile",
+            "params":[
+                "name | string | 名字",
+                "signature | string | 简介",
+                "nickName | string | 昵称",
+                "school | string | 学校",
+                "hometown | string | 家乡",
+                "coachTrait | string | 教学特点",
+                "plateNum | string | 车牌号",
+                "coachCar | string | 教学用车",
+                "sex | int | 性别(0:女，1:男)",
+                "emotion | int | 情感状态(0:单身,1:未单身)",
+                "teachType | int | 教学类型(0:一对一,1:一对多)",
+                "birthday | string | 生日(2015-03-03)",
+                "coachLisenceDate | string | 领教练证日期(2015-03-03)",
+                "driveSchool | int | 驾校ID",
+                "site | int | 场地ID",
+                "idNumber | string | 身份证号码"
+            ],
+            "testParams":{
+                "name":"秦阳",
+                "site":3,
+                "driveSchool":6,
+                "coachLisenceDate":"2015-03-03",
+                "teachType":0,
+                "idNumber":"511023199110198414"
+            },
+            "desc":"该接口已修改，会返回用户的数据"
+        },{
+            "title":"重新加载用户的个人信息",
+            "method":"GET",
+            "uri":"/reload",
+            "testParams":{
+
+            },
+            "desc":"比如在教练绑定成功之后调用"
+        },{
+            "title":"获取自己的邀请码",
+            "method":"GET",
+            "uri":"/inviteCode",
+            "testParams":{}
+        },{
+            "title":"修改密码",
+            "method":"PUT",
+            "uri":"/pwd",
+            "params":[
+                "oldPwd | string | 旧密码",
+                "newPwd | string | 新密码"
+            ],
+            "testParams":{
+                "oldPwd":"qqqqqq",
+                "newPwd":"qqqqqq"
+            },
+            "desc":"与重置密码不同的是，该接口需要提供旧密码来验证用户的身份"
+        },{
+            "title":"绑定微信号",
+            "method":"PUT",
+            "uri":"/wxBind",
+            "params":[
+                "code | string | 通过微信网页授权回调获取到的code"
+            ],
+            "testParams":{
+                "code":"001fe7f06e100f514f7e64819b5d8ded"
+            }
+        }
+    ],
+    "sub":[
+        {
+            "title":"多媒体管理(背景图，视频，语音)",
+            "uri":"/medium",
+            "apis":[
+                {
+                    "title":"获取多媒体的上传凭证",
+                    "method":"GET",
+                    "uri":"/:type/uptoken",
+                    "params":[
+                        "type | string | 多媒体类型 (background, video, voice) "
+                    ],
+                    "testParams":{
+                        "type":"video"
+                    }
+                },{
+                    "title":"上传多媒体(七牛接口)",
+                    "method":"FILE-UPLOAD",
+                    "uri":"http://upload.qiniu.com/",
+                    "absolute":true,
+                    "testParams":{
+                        "token":"x2KJmdepFhAJpgGOVMipefEH6n2dOz_akFo4wQ9N:ZHIs3DwnMHdtB8JMq6hUZc7mKHA=:eyJwZXJzaXN0ZW50UGlwZWxpbmUiOiJjb2FjaHZpZGVvIiwicGVyc2lzdGVudE9wcyI6ImF2dGh1bWIvbXA0L2FiLzEyOGsvYXIvMjIwNTAvYWNvZGVjL2xpYmZhYWMvci8zMC92Yi8zMDBrL3Zjb2RlYy9saWJ4MjY0L3MvMzIweDI0MC9hdXRvc2NhbGUvMS9zdHJpcG1ldGEvMHxzYXZlYXMvZG1sa1pXODZaR1YyWld4dmNHMWxiblF2TWpCZk1UUTBNVFk0TWpjNU5UWTBNbDl6YldGc2JBPT07dmZyYW1lL3BuZy9vZmZzZXQvNS93Lzk2MC9oLzQ1MHxzYXZlYXMvYzI1aGNITm9iM1E2WkdWMlpXeHZjRzFsYm5Rdk1qQmZNVFEwTVRZNE1qYzVOVFkwTWw5emJXRnNiQT09Iiwic2F2ZUtleSI6ImRldmVsb3BtZW50LzIwXzE0NDE2ODI3OTU2NDIiLCJzY29wZSI6InZpZGVvOmRldmVsb3BtZW50LzIwXzE0NDE2ODI3OTU2NDIiLCJkZWFkbGluZSI6MTQ0MTY4NDYxNH0=",
+                        "key":"development/20_1441682795642"
+                    }
+                },{
+                    "title":"将多媒体链接回传给服务器",
+                    "method":"POST",
+                    "uri":"/:type",
+                    "params":[
+                        "type | string | 多媒体类型 (background, video, voice),拼接到url里",
+                        "index | string | 多媒体的index，该参数放到请求头里"
+                    ],
+                    "testParams":{
+                        "type":"video",
+                        "index":"1438998951041"
+                    }
+                },{
+                    "title":"获取多媒体",
+                    "method":"GET",
+                    "uri":"/:type",
+                    "params":[
+                        "type | string | 多媒体类型 (background, video, voice) "
+                    ],
+                    "testParams":{
+                        "type":"video"
+                    }
+                },{
+                    "title":"删除多媒体",
+                    "method":"DELETE",
+                    "uri":"/:type/:index",
+                    "params":[
+                        "type | string | 多媒体类型 (background, video, voice) ",
+                        "index | string | 多媒体的index"
+                    ],
+                    "testParams":{
+                        "type":"background",
+                        "index":"1438593269680"
+                    }
+                }
+            ]
+        }
+    ]
+},{
+    "title":"消息接口",
+    "uri":"/message",
+    "apis":[
+        {
+            "title":"获取未删除消息",
+            "uri":"/list",
+            "method":"GET",
+            "params":[
+                "index | int | 页码",
+                "top | int | 每页显示的数量"
+            ],
+            "testParams":{
+                "index":0,
+                "top":20
+            }
+        },{
+            "title":"把消息置为已读",
+            "uri":"/read",
+            "method":"POST",
+            "params":[
+                "messageId | int | 消息ID"
+            ],
+            "testParams":{
+                "messageId":1
+            }
+        },{
+            "title":"删除消息",
+            "uri":"/:messageId",
+            "method":"DELETE",
+            "params":[
+                "messageId | int | 消息ID"
+            ],
+            "testParams":{
+                "messageId":1
+            }
+        }
+    ]
+},{
+    "title":"搜索(公共接口，无需登录)",
+    "uri":"/search",
+    "sub":[
+        {
+            "title":"场地",
+            "uri":"/site",
+            "apis":[
+                {
+                    "title":"通过地理位置搜索场地",
+                    "uri":"/byLocation",
+                    "method":"GET",
+                    "params":[
+                        "long | float | 经度",
+                        "lat | float | 纬度",
+                        "distance | float | 搜索范围,单位是米"
+                    ],
+                    "testParams":{
+                        "long":103.98055,
+                        "lat":30.739964,
+                        "distance":5000
+                    },
+                    "desc":"返回排序前50个结果"
+                },{
+                    "title":"通过关键字搜索场地",
+                    "uri":"/byKey",
+                    "method":"GET",
+                    "params":[
+                        "long | float | 经度",
+                        "lat | float | 纬度",
+                        "key | string | 搜索关键字(匹配场地名称)"
+                    ],
+                    "testParams":{
+                        "long":103.98055,
+                        "lat":30.739964,
+                        "key":"金盾"
+                    }
+                },{
+                    "title":"获取场地的区域信息",
+                    "uri":"/area",
+                    "method":"GET",
+                    "params":[
+                        "cityId | string | 城市ID（成都的ID是1930）"
+                    ],
+                    "testParams":{
+                        "cityId":"1930"
+                    }
+                },{
+                    "title":"通过区域ID获取该区域的场地列表",
+                    "uri":"/byArea",
+                    "method":"GET",
+                    "params":[
+                        "areaId | string | 区域ID"
+                    ],
+                    "testParams":{
+                        "areaId":"49314"
+                    }
+                },{
+                    "title":"获取场地的默认列表",
+                    "uri":"/default",
+                    "method":"GET",
+                    "testParams":{
+
+                    },
+                    "desc":"现在数据少，是全部返回"
+                }
+            ]
+        },{
+            "title":"驾校",
+            "uri":"/driveSchool",
+            "apis":[
+                {
+                    "title":"通过关键字搜索驾校",
+                    "method":"GET",
+                    "uri":"/byKey",
+                    "params":[
+                        "key | string | 搜索关键字(匹配驾校名称)"
+                    ],
+                    "testParams":{
+                        "key":"驾校"
+                    }
+                },{
+                    "title":"获取驾校的默认列表",
+                    "method":"GET",
+                    "uri":"/default",
+                    "testParams":{},
+                    "desc":"现在数据少，是全部返回"
+                }
+            ]
+        },{
+            "title":"教练",
+            "uri":"/coach",
+            "apis":[
+                {
+                    "title":"通过关键字搜索教练",
+                    "method":"GET",
+                    "uri":"/byKey",
+                    "params":[
+                        "long | float | 经度",
+                        "lat | float | 纬度",
+                        "key | string | 搜索关键字(匹配教练名称)"
+                    ],
+                    "testParams":{
+                        "long":103.98055,
+                        "lat":30.739964,
+                        "key":"159"
+                    }
+                },{
+                    "title":"通过siteId获取教练列表",
+                    "method":"GET",
+                    "uri":"/bySiteId",
+                    "params":[
+                        "siteId | int | 场地ID"
+                    ],
+                    "testParams":{
+                        "siteId":1
+                    }
+                },{
+                    "title":"通过教练ID获取教练详情 /byId",
+                    "method":"GET",
+                    "uri":"/byId",
+                    "params":[
+                        "coachId | int | 教练ID"
+                    ],
+                    "testParams":{
+                        "coachId":150
+                    }
+                },{
+                    "title":"点击获取各区域教练数量",
+                    "method":"GET",
+                    "uri":"/area",
+                    "params":[
+                        "cityId | string | 城市ID（成都的ID是1930）"
+                    ],
+                    "testParams":{
+                        "cityId":"1930"
+                    }
+                },{
+                    "title":"筛选教练",
+                    "method":"GET",
+                    "uri":"/filter",
+                    "params":[
+                        "areaId | string | 区域ID，为999999时，表示全部区域，这个时候，cityId不能为空",
+                        "cityId | string | 城市ID，当areaId=999999时，cityId不能为空,成都的ID是1930",
+                        "teachType | int | 教学类型 0是一对一，1是一对多",
+                        "index | int | 分页的页码，从0开始,最大是19",
+                        "top | int | 每页显示的教练条数,最大是20",
+                        "long | float | 经度 ,当排序方式是distance时，经纬度必须存在",
+                        "lat | float | 纬度 ,当排序方式是distance时，经纬度必须存在",
+                        "sort | string | 排序方式，'default', 'distance', 'view',分别是默认，距离，查看次数"
+                    ],
+                    "testParams":{
+                        "index":0,
+                        "top":20,
+                        "areaId":"999999",
+                        "cityId":"1930",
+                        "teachType":0,
+                        "long":103.98055,
+                        "lat":30.739964,
+                        "sort":"view"
+                    },
+                    "desc":"暂时取消通过评论次数来排序"
+                },{
+                    "title":"获取教练的默认列表",
+                    "method":"GET",
+                    "uri":"/default",
+                    "testParams":{},
+                    "desc":"现在数据少，是全部返回"
+                }
+            ]
+        },{
+            "title":"体检医院",
+            "uri":"/hospital",
+            "apis":[
+                {
+                    "title":"通过cityId获取体检医院",
+                    "method":"GET",
+                    "uri":"/",
+                    "params":[
+                        "cityId | string | 城市ID（成都的ID是1930）"
+                    ],
+                    "testParams":{
+                        "cityId":"1930"
+                    }
+                }
+            ]
+        }
+    ]
+},{
+    "title":"微信相关",
+    "uri":"/wx",
+    "apis":[
+        {
+            "title":"获取微信的signature",
+            "method":"GET",
+            "uri":"/signature",
+            "params":[
+                "url | string | 不带#部分的url"
+            ],
+            "testParams":{
+                "url":"http://wx.lja.so?sadf=2134123&sadfasdf=12341234"
+            }
+        }
+    ]
+}
+]

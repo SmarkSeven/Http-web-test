@@ -1,0 +1,12 @@
+[
+{
+	"title":"招聘信息",
+	"apis":[
+		{
+			"title":"ni获取招聘信息",
+			"uri":"/data/job.json",
+			"method":"GET"
+		}
+	]
+}
+]

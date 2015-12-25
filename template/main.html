@@ -1,0 +1,66 @@
+<div class="row api">
+	<div class="col-md-3 tree">
+		<nav>
+			<ul>
+				<li ng-repeat="(key, value) in apiList" style="{{'padding-left: ' + 50 * value.indent + 'px'}}; list-style-position: inside;">
+					<a href="#{{value.title}}" title="" ng-click="setCurrentApi(value,'title')">{{value.title}}</a>
+					<ul>
+						<li ng-repeat="(key, api) in value.apis">
+							<a href="#{{value.title}}-{{api.title}}" title="" ng-click="setCurrentApi(api)">{{api.title}}</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</div>
+	<div class="col-md-9">
+		<table class="table table-bordered table-striped apiBoard">
+			<tbody>
+				<tr>
+					<td>接口名称</td>
+					<td>{{currentApi.api.title}}</td>
+				</tr>
+				<tr>
+					<td>method</td>
+					<td>{{currentApi.api.method}}</td>
+				</tr>
+				<tr>
+					<td>URL</td>
+					<td>{{currentApi.api.uri}}</td>
+				</tr>
+				<tr ng-if="currentApi.api.params">
+					<td>输入参数</td>
+					<td>
+						<a tabindex="0" role="button" style="cursor: pointer;" content="{{popoverContent(currentApi.api.params)}}" title="输入参数" show-popover>点击查看</a>
+					</td>
+				</tr>
+				<tr ng-if="currentApi.api.resData">
+					<td>返回数据</td>
+					<td>
+						<a tabindex="0" role="button" style="cursor: pointer;" content="{{popoverContent(currentApi.api.resData)}}" title="返回数据" show-popover>点击查看</a>
+					</td>
+				</tr>
+				<tr ng-if="currentApi.api.html">
+					<td>自定义HTML</td>
+					<td ng-bind-html="trustAsHtml(currentApi.api.html)"></td>
+				</tr>
+				<tr ng-if="currentApi.api.method == 'FILE-UPLOAD'">
+					<td>文件选择</td>
+					<td>
+						<input type="file" nv-file-select uploader="getUploader(currentApi.api)"/>
+					</td>
+				</tr>
+				<tr ng-if="currentApi.api.testParams">
+					<td>测试按钮</td>
+					<td style="cursor: pointer;" ng-click="test(currentApi.api)">
+						<a>点击测试</a>
+					</td>
+				</tr>
+				<tr>
+					<td>说明</td>
+					<td>{{currentApi.api.desc}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

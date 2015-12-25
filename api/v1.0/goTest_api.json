@@ -1,0 +1,16 @@
+[
+{
+	"title":"测试",
+	"apis":[
+		{
+			"title":"用户登录",
+	        "method":"GET",
+	        "uri":"/login",
+	        "testParams":{
+	            "password":"qqqqqq",
+	            "phone":"13888880777"
+	        }
+		}
+	]
+}
+]

@@ -1,0 +1,353 @@
+[
+{
+	"title":"系统初始化",
+	"apis":[
+		{
+			"title":"检测系统是否初始化",
+			"uri":"/checkInit",
+			"method":"GET",
+			"testParams":{}
+		},{
+			"title":"初始化管理员",
+			"uri":"/initAdmin",
+			"method":"POST",
+			"params":[
+				"userName | string | 初始化管理员用户名",
+				"password1 | string | 密码1",
+				"password2 | string | 密码2"
+			],
+			"testParams":{
+				"userName":"admin",
+				"password1":"123456",
+				"password2":"123456"
+			}
+		}
+	]
+},{
+	"title":"登录",
+	"apis":[
+		{
+			"title":"管理员登录",
+			"uri":"/login",
+			"method":"POST",
+			"params":[
+				"userName | string | 登录用户名",
+				"password | string | 登录密码"
+			],
+			"testParams":{
+				"userName":"admin",
+				"password":"123456"
+			}
+		},{
+			"title":"管理员退出",
+			"uri":"/loginOut",
+			"method":"GET",
+			"testParams":{}
+		},{
+			"title":"检测登录状态",
+			"uri":"/loginState",
+			"method":"GET",
+			"testParams":{}
+		}
+	]
+},{
+	"title":"用户管理",
+	"uri":"/operate/user",
+	"apis":[
+		{
+			"title":"获取签约用户",
+			"uri":"/sign",
+			"method":"GET",
+			"testParams":{},
+			"desc":"获取签约用户，即获取后台用户mark标记为1的用户"
+		},{
+			"title":"分页获取用户",
+			"uri":"/",
+			"method":"GET",
+			"params":[
+				"index | int | 当前第几页，从0开始，0表示第一页",
+				"top | int | 每页需要显示多少条目",
+				"type | string | 获取的用户类型 (all,coach,student,none).为空的时候表示获取所有用户"
+			],
+			"testParams":{
+				"index":0,
+				"top":30,
+				"type":"all"
+			},
+			"desc":"由于采用mysql数据库，分页方式进行了调整，不再有获取上一页、下一页和首页的用户，所有用户分页都通过这个接口来获取.该接口同时用于获取多类用户列表"
+		},{
+			"title":"通过手机搜索用户",
+			"uri":"/searchByPhone",
+			"method":"GET",
+			"params":[
+				"phone | string | 用户手机号"
+			],
+			"testParams":{
+				"phone":"13888880003"
+			}
+		},{
+			"title":"获取用户总数",
+			"uri":"/count",
+			"method":"GET",
+			"testParams":{}
+		},{
+			"title":"通过用户ID获取用户详细信息",
+			"uri":"/byId",
+			"method":"GET",
+			"params":[
+				"userId | int | 用户ID"
+			],
+			"testParams":{
+				"userId":30
+			}
+		},{
+            "title":"获取证件照的下载链接",
+            "method":"GET",
+            "uri":"/lisenceGettoken",
+            "params":[
+                "lisenceType | string | 证件类型(identity ,drive ,coach ,driving)"
+            ],
+            "testParams":{
+                "lisenceType":"drive",
+                "userId":30
+            }
+        },{
+        	"title":"通过教练ID获取学员列表",
+        	"method":"GET",
+        	"uri":"/studentList/byCoachId",
+        	"params":[
+        		"coachId | int | 教练ID"
+        	],
+        	"testParams":{
+        		"coachId":344
+        	}
+        }
+	]
+},{
+	"title":"数据统计",
+	"uri":"/statistics",
+	"apis":[
+		{
+			"title":"获取教练科目的预约和取消的情况",
+			"uri":"/coach/subject",
+			"method":"GET",
+			"params":[
+				"coachId | int | 教练的ID",
+				"date | int,string | 查询日期。如果按天查询，date值类似:2015-09-22,如果按周查询,date值类似30(当前年，第几周).该值在按天和按周查询是必须的",
+				"year | int | 年份.如：2015.该值在按周和按月是必须的"
+			],
+			"testParams":{
+				"coachId":899,
+				"date":36,
+				"year":2015
+			},
+			"desc":"返回的数据结构进行了调整，只返回预约和取消的情况，不考虑科目二和科目三，两组数据的和，就是使用次数"
+		},{
+			"title":"获取用户的注册情况",
+			"uri":"/user/register",
+			"method":"GET",
+			"params":[
+				"coachId | int | 教练的ID",
+				"date | int,string | 查询日期。如果按天查询，date值类似:2015-09-22,如果按周查询,date值类似30(当前年，第几周).该值在按天和按周查询是必须的",
+				"year | int | 年份.如：2015.该值在按周和按月是必须的"
+			],
+			"testParams":{
+				"date":36,
+				"year":2015
+			}
+		},{
+			"title":"获取教练科目预约的学员数量",
+			"uri":"/coach/student",
+			"method":"GET",
+			"params":[
+				"coachId | int | 教练的ID",
+				"date | int,string | 查询日期。如果按天查询，date值类似:2015-09-22,如果按周查询,date值类似30(当前年，第几周).该值在按天和按周查询是必须的",
+				"year | int | 年份.如：2015.该值在按周和按月是必须的"
+			],
+			"testParams":{
+				"coachId":899,
+				"year":2015
+			}
+		}
+	]
+},{
+	"title":"排序相关接口",
+	"uri":"/rank",
+	"apis":[
+		{
+			"title":"通过教练的学员量，对拥有3个及以上学员的教练进行排序",
+			"uri":"/coach/byStudentNum",
+			"method":"GET",
+			"params":[
+				"index | int | 当前第几页，从0开始，0表示第一页",
+				"top | int | 每页需要显示多少条目",
+				"studentNum | int | 想排序多少学员量以上的教练"
+			],
+			"testParams":{
+				"index":0,
+				"top":30,
+				"studentNum":1
+			}
+		},{
+			"title":"获取具有一定学员量的教练的数量",
+			"uri":"/coach/count",
+			"method":"GET",
+			"params":[
+				"studentNum | int | 想统计的教练的学员量"
+			],
+			"testParams":{
+				"studentNum":1
+			}
+		}
+	]
+},{
+	"title":"教练管理",
+	"uri":"/operate/coach",
+	"apis":[
+		{
+			"title":"获取未处理的教练申请",
+			"uri":"/applyList",
+			"method":"GET",
+			"testParams":{}
+		},{
+			"title":"教练审核",
+			"uri":"/examine",
+			"method":"POST",
+			"params":[
+				"teachType | int | 教练的教学类型(0是一对一,1是一对多)",
+				"idNumber | string | 身份证号码",
+				"coachId | int | 教练的ID",
+				"name | int | 教练的名字"
+			],
+			"testParams":{
+				"teachType":0,
+				"idNumber":"511023199110198414",
+				"coachId":12,
+				"name":"秦阳"
+			}
+		},{
+			"title":"拒绝审核",
+			"uri":"/examineRefuse",
+			"method":"POST",
+			"params":[
+				"coachId | string | 教练ID",
+				"reason | string | 拒绝理由"
+			],
+			"testParams":{
+				"coachId":12,
+				"reason":"不爽你"
+			}
+		}
+	]
+},{
+	"title":"场地管理",
+	"uri":"/operate/siteInfo",
+	"apis":[
+		{
+			"title":"添加场地",
+			"uri":"/add",
+			"method":"POST",
+			"params":[
+				"long | float | 经度",
+				"lat | float | 纬度",
+				"name | string | 场地名字",
+				"address | string | 场地地址"
+			],
+			"testParams":{
+				"long":103.213423,
+				"lat":30.12321,
+				"name":"测试场地",
+				"address":"电子科大西区科技园"
+			}
+		},{
+			"title":"获取场地列表",
+			"uri":"/get",
+			"method":"GET",
+			"params":[
+				"long | float | 经度",
+				"lat | float | 纬度",
+				"distance | int | 距离，单位是米"
+			],
+			"testParams":{
+				"long":103.98055,
+				"lat":30.739964,
+				"distance":5000
+			}
+		}
+	]
+},{
+	"title":"驾校管理",
+	"uri":"/operate/driveSchool",
+	"apis":[
+		{
+			"title":"添加驾校",
+			"uri":"/add",
+			"method":"POST"
+		},{
+			"title":"获取驾校列表",
+			"uri":"/",
+			"method":"GET"
+		}
+	]
+},{
+	"title":"管理员管理",
+	"uri":"/operate/manager",
+	"apis":[
+		{
+			"title":"添加管理员",
+			"uri":"/",
+			"method":"POST"
+		},{
+			"title":"获取管理员列表",
+			"uri":"/",
+			"method":"GET"
+		}
+	]
+},{
+	"title":"招聘",
+	"uri":"/officialWebsite/job",
+	"apis":[
+		{
+			"title":"添加职位",
+			"uri":"/",
+			"method":"POST"
+		},{
+			"title":"修改职位",
+			"uri":"/",
+			"method":"PUT"
+		},{
+			"title":"获取职位",
+			"uri":"/",
+			"method":"GET"
+		},{
+			"title":"删除职位",
+			"uri":"/",
+			"method":"DELETE"
+		},{
+			"title":"图片上传",
+			"uri":"/imgUpload",
+			"method":"FILE-UPLOAD"
+		}
+	]
+},{
+	"title":"测试人员",
+	"uri":"/officialWebsite/tester",
+	"apis":[
+		{
+			"title":"分页查看测试人员",
+			"uri":"/",
+			"method":"GET"
+		}
+	]
+},{
+	"title":"非登录访问",
+	"uri":"/withOutLogin",
+	"apis":[
+		{
+			"title":"参与内测",
+			"uri":"/tester",
+			"method":"POST"
+		}
+	]
+}
+]
